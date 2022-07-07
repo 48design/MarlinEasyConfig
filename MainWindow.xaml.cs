@@ -393,7 +393,7 @@ namespace MarlinEasyConfig
                     dialog.ExpandedControlText = "Show licences";
                     dialog.ExpandedInformation = messageBoxLicences;
                     
-                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>.";
+                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design\">github.com/48design/marlineasyconfig</a>.";
                     dialog.FooterIcon = TaskDialogIcon.Information;
                     
                     dialog.EnableHyperlinks = true;
