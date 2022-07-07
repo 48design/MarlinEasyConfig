@@ -375,9 +375,12 @@ namespace MarlinEasyConfig
             string messageBoxCaption = "Information";
             string messageBoxText = string.Join(Environment.NewLine + Environment.NewLine,
                             $"MarlinEasyConfig is created by 48DESIGN GmbH - New Media Agency, Karlsruhe, Germany. More information about us can be found at vierachtdesign.com",
-                            "The source code can be found at github.com/48design/marlineasyconfig",
-                            "MarlinEasyConfig uses the class library \"Ookii.Dialogs.Wpf\" for the directory dialog which is licensed under BSDv3",
-                            "The open source firmware Marlin is licensed under GPLv3");
+                            "The source code can be found at github.com/48design/MarlinEasyConfig",
+                            "MarlinEasyConfig uses the class library \"Ookii.Dialogs.Wpf\" for special dialogs");
+
+            string messageBoxLicences = string.Join(Environment.NewLine + Environment.NewLine,
+                            "Marlin firmware : GPLv3 License",
+                            "Ookii.Dialogs.Wpf : BSD 3 - Clause License");
 
             if (TaskDialog.OSSupportsTaskDialogs)
             {
@@ -388,27 +391,40 @@ namespace MarlinEasyConfig
                     dialog.Content = messageBoxText;
                     
                     dialog.ExpandedControlText = "Show licences";
-                    dialog.ExpandedInformation = "Ookii.org's Task Dialog doesn't just provide a wrapper for the native Task Dialog API; it is designed to provide a programming interface that is natural to .Net developers.";
+                    dialog.ExpandedInformation = messageBoxLicences;
                     
-                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design\">github.com/48design/marlineasyconfig</a>.";
+                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>.";
                     dialog.FooterIcon = TaskDialogIcon.Information;
                     
                     dialog.EnableHyperlinks = true;
-                    TaskDialogButton customButton = new TaskDialogButton("A custom button");
+
+                    TaskDialogButton licenceOneButton = new TaskDialogButton("Ookii.Dialogs.Wpf licence");
+                    TaskDialogButton licenceTwoButton = new TaskDialogButton("Marlin licence");
                     TaskDialogButton okButton = new TaskDialogButton(ButtonType.Ok);
-                    TaskDialogButton cancelButton = new TaskDialogButton(ButtonType.Cancel);
-                    dialog.Buttons.Add(customButton);
+
+                    dialog.Buttons.Add(licenceOneButton);
+                    dialog.Buttons.Add(licenceTwoButton);
                     dialog.Buttons.Add(okButton);
                     
                     dialog.HyperlinkClicked += new EventHandler<HyperlinkClickedEventArgs>(TaskDialog_HyperLinkClicked);
                     
                     TaskDialogButton button = dialog.ShowDialog(this);
-                    if (button == customButton)
-                        MessageBox.Show(this, "You clicked the custom button", "Task Dialog Sample");
-                    /*
-                    else if (button == okButton)
-                        MessageBox.Show(this, "You clicked the OK button.", "Task Dialog Sample");
-                    */
+                    if (button == licenceOneButton)
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://github.com/ookii-dialogs/ookii-dialogs-wpf",
+                            UseShellExecute = true
+                        });
+                    }
+                    else if(button == licenceTwoButton)
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "https://github.com/MarlinFirmware/Marlin/",
+                            UseShellExecute = true
+                        });
+                    }
                 }
             }
             else
