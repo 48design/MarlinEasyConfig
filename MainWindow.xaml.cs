@@ -378,7 +378,7 @@ namespace MarlinEasyConfig
                             "The source code can be found at github.com/48design/MarlinEasyConfig",
                             "MarlinEasyConfig uses the class library \"Ookii.Dialogs.Wpf\" for special dialogs");
 
-            string messageBoxLicences = string.Join(Environment.NewLine + Environment.NewLine,
+            string messageBoxLicences = string.Join(Environment.NewLine,
                             "Marlin firmware : GPLv3 License",
                             "Ookii.Dialogs.Wpf : BSD 3 - Clause License");
 
@@ -393,7 +393,7 @@ namespace MarlinEasyConfig
                     dialog.ExpandedControlText = "Show licences";
                     dialog.ExpandedInformation = messageBoxLicences;
                     
-                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design\">github.com/48design/marlineasyconfig</a>.";
+                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>.";
                     dialog.FooterIcon = TaskDialogIcon.Information;
                     
                     dialog.EnableHyperlinks = true;
