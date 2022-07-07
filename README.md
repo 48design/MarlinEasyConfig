@@ -6,7 +6,7 @@ A tool to make editing [Marlin](https://marlinfw.org/) configurations an easy ta
 
 MarlinEasyConfig can be used to open and edit Marlin's Configuration.h and Configuration_adv.h files.
 - Simply pick a Marlin folder (`Menu > Open Marlin Folder`) and the configuration files will get parsed. All variables are listed in a data table with their values and comments.
-- You can search for a variable name in the top right text field.
+- You can search for a variable name using the top right text field. The table gets filtered.
 - Edit the values and save the configuration (`Menu > Save Config`).
 - Compare the configuration loaded with a different Marlin configuration (`Menu > Compare Marlin Configuration`). If needed you can transfer all values from the compared version (`Menu > Transfer Compared Values`), e.g. to switch to a new Marlin version.
 
@@ -18,6 +18,10 @@ MarlinEasyConfig can be used to open and edit Marlin's Configuration.h and Confi
 ## ToDos
 - parse commented defines (`//#define`) and show a checkbox for each row to switch between those states
 - remove suffix "_new" when saving
+- ... 
+
+## Ideas
+- check Marlin versions and provide a way to transfer values between renamed variables based on version number
 - ... 
 
 ## Donation
