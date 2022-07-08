@@ -9,12 +9,13 @@ MarlinEasyConfig can be used to open and edit Marlin's Configuration.h and Confi
 - You can search for a variable name using the top right text field. The table gets filtered.
 - Edit the values and save the configuration (`Menu > Save Config`).
 - Compare the configuration loaded with a different Marlin configuration (`Menu > Compare Marlin Configuration`). If needed you can transfer all values from the compared version (`Menu > Transfer Compared Values`), e.g. to switch to a new Marlin version.
+- Restore your configuration to get back the last state (`Menu > Restore Configuration`)
 
 ## Features
 - **read** and **edit** Marlin configuration files
 - **compare** Marlin configurations
 - **transfer settings** from one configuration to another
-- **backup** of the configuration files when saved (Configuration.bak and Configuration_adv.bak)
+- **backup** and **restore** of the configuration (Configuration.bak and Configuration_adv.bak files created on save)
 
 ## ToDos
 - parse commented defines (`//#define`) and show a checkbox for each row to switch between those states
