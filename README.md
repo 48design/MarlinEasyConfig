@@ -1,5 +1,5 @@
 ﻿# MarlinEasyConfig [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=VT4P4AT8FTYDL)
-A tool to make editing [Marlin](https://marlinfw.org/) configurations an easy task.
+A configuration tool for [Marlin](https://marlinfw.org/) to make editing Marlin configurations an easy task.
 
 ## How to
 **Note**: This software is still in development. It has been tested in personal use and bugs are sure to be found!
@@ -14,10 +14,10 @@ MarlinEasyConfig can be used to open and edit Marlin's Configuration.h and Confi
 - **read** and **edit** Marlin configuration files
 - **compare** Marlin configurations
 - **transfer settings** from one configuration to another
+- **backup** of the configuration files when saved (Configuration.bak and Configuration_adv.bak)
 
 ## ToDos
 - parse commented defines (`//#define`) and show a checkbox for each row to switch between those states
-- remove suffix "_new" when saving
 - ... 
 
 ## Ideas

@@ -344,7 +344,8 @@ namespace MarlinEasyConfig
                     if (parameter.Type == ParameterType.String) newValue = '"' + parameter.CleanValue(newValue).TrimEnd('\\') + '"';
                     conf = Regex.Replace(conf, pattern, m => string.IsNullOrEmpty(m.Groups[3].Value) ? m.Value : m.Value?.ReplaceFirst(m.Groups[3].Value, newValue ), RegexOptions.Multiline);
                 }
-                File.WriteAllText(configFile.Replace(".h", "_new.h"), conf);
+                File.Move(configFile, configFile.Replace(".h", ".bak"));
+                File.WriteAllText(configFile, conf);
                 return true;
             }
             return false;
@@ -374,8 +375,8 @@ namespace MarlinEasyConfig
         {
             string messageBoxCaption = "Information";
             string messageBoxText = string.Join(Environment.NewLine + Environment.NewLine,
-                            $"MarlinEasyConfig is created by 48DESIGN GmbH - New Media Agency, Karlsruhe, Germany. More information about us can be found at vierachtdesign.com",
-                            "The source code can be found at github.com/48design/MarlinEasyConfig",
+                            $"MarlinEasyConfig is created by 48DESIGN GmbH - New Media Agency Karlsruhe, Germany. More information about us can be found at vierachtdesign.com",
+                            "The source code can be found at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>",
                             "MarlinEasyConfig uses the class library \"Ookii.Dialogs.Wpf\" for special dialogs");
 
             string messageBoxLicences = string.Join(Environment.NewLine,
@@ -387,13 +388,13 @@ namespace MarlinEasyConfig
                 using (TaskDialog dialog = new TaskDialog())
                 {
                     dialog.WindowTitle = messageBoxCaption;
-                    dialog.MainInstruction = "This is an example task dialog.";
+                    dialog.MainInstruction = "MarlinEasyConfig is a configuration tool for the famous Marlin 3D printer firmware to make editing Marlin configurations an easy task.";
                     dialog.Content = messageBoxText;
                     
                     dialog.ExpandedControlText = "Show licences";
                     dialog.ExpandedInformation = messageBoxLicences;
                     
-                    dialog.Footer = "The source code can be found at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>.";
+                    dialog.Footer = "Source code at <a href=\"https://github.com/48design/MarlinEasyConfig\">github.com/48design/MarlinEasyConfig</a>.";
                     dialog.FooterIcon = TaskDialogIcon.Information;
                     
                     dialog.EnableHyperlinks = true;
