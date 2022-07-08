@@ -25,9 +25,11 @@ namespace MarlinEasyConfig
         {
             return Regex.Replace(str, @"\\([\s\S])|([\""|\'])", "\\$1$2");
         }
+        /*
         public static string EscapeInnerQuotes(this string str)
         {
-            return Regex.Replace(str, @"\\([\s\S])|([\""|\'])", "\\$1$2");
+            return Regex.Replace(str, @"\\([\s\S])|([\""|\'])", "\\$1$2"); //@"(?<!^)[\""\'](?!$)"
         }
+        */
     }
 }

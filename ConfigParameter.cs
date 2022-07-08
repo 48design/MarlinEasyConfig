@@ -55,13 +55,17 @@ namespace MarlinEasyConfig
             }
         }
 
+        public void Filter(string txtSearch)
+        {
+            IsFiltered = !Name.ToLower().StartsWith(txtSearch);
+        }
+
         public string CleanValue(string value)
         {
             if (string.IsNullOrEmpty(value)) return null;
             return Type switch
             {
-                //ParameterType.String => Regex.Replace(value.Trim(new[] { '"', '\'', '\\' }).EscapeQuotes(), @"\s+", " "), //@"(?<!^)[\""\'](?!$)"
-                ParameterType.String => Regex.Replace(value.EscapeQuotes(), @"\s+", " "), //@"(?<!^)[\""\'](?!$)"
+                ParameterType.String => Regex.Replace(value.EscapeQuotes(), @"\s+", " "),
                 _ => Regex.Replace(value, @"\s+", " "),
             };
         }

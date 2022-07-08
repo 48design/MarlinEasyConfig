@@ -21,6 +21,7 @@
                     <Separator />
                     <MenuItem Header="_Compare Marlin Configuration" Click="Menu_OpenMarlin" Name="MenuItem_Compare" IsEnabled="False"/>
                     <MenuItem Header="_Transfer Compared Values" Click="Menu_Transfer" Name="MenuItem_Transfer" IsEnabled="False"/>
+                    <MenuItem Header="_Restore Configuration" Click="Menu_Restore" Name="MenuItem_Restore" IsEnabled="False"/>
                     <Separator />
                     <MenuItem Header="_Save Config" Click="MenuItem_Save"/>
                     <Separator />

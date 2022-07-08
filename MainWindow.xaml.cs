@@ -70,26 +70,42 @@ namespace MarlinEasyConfig
                         else ParseConfig(configFileAdv, true);
                     }
 
-                    // update source if needed
+                    // regular open mode
                     if (!doCompare)
                     {
                         CompareColumn.Visibility = Visibility.Collapsed;
+                        
                         ConfigTable.ItemsSource = null;
                         ConfigTable.ItemsSource = configParameters;
+
                         MenuItem_Compare.IsEnabled = true;
                         MenuItem_Transfer.IsEnabled = false;
+                        MenuItem_Restore.IsEnabled = CheckBackupAvailable(configFolder);
 
                         currentMarlinConfig = configFile;
                         currentMarlinConfigAdv = configFileAdv;
                     }
-                    else
+                    else // compare mode
                     {
+                        CompareColumn.Visibility = Visibility.Visible;
+
                         MenuItem_Compare.IsEnabled = true;
                         MenuItem_Transfer.IsEnabled = true;
-                        CompareColumn.Visibility = Visibility.Visible;
                     }
                 }
             }
+        }
+
+        private void Menu_Restore(object sender, RoutedEventArgs e)
+        {
+            // load config backup
+            var configFile = currentMarlinConfig.Replace(".h", ".bak");
+            if (File.Exists(configFile)) ParseConfig(configFile, false, true);
+            // load advanced config backup
+            var configFileAdv = currentMarlinConfigAdv.Replace(".h", ".bak");
+            if (File.Exists(configFileAdv)) ParseConfig(configFileAdv, true, true);
+
+            ConfigTable.Items.Refresh();
         }
 
         private string GetMarlinConfigFolder(string path)
@@ -103,9 +119,16 @@ namespace MarlinEasyConfig
             return path;
         }
 
-        private string CheckConfigFile(string path, bool advanced = false)
+        private bool CheckBackupAvailable(string path)
         {
-            var configFile = @"\Configuration" + (advanced ? "_adv" : null) + @".h";
+            var configBak = path + @"\Configuration.bak";
+            var configAdvBak = path + @"\Configuration_adv.bak";
+            return File.Exists(configBak) || File.Exists(configAdvBak);
+        }
+
+        private string CheckConfigFile(string path, bool advanced = false, bool backup = false)
+        {
+            var configFile = @"\Configuration" + (advanced ? "_adv" : null) + @"." + (backup ? "bak" : "h");
             var configFilePath = path + configFile;
             if (File.Exists(configFilePath)) return configFilePath;
 
@@ -124,7 +147,7 @@ namespace MarlinEasyConfig
             return regexMultiline.Replace(File.ReadAllText(file), "").Split('\n');
         }
 
-        private void ParseConfig(string configFile, bool advanced = false)
+        private void ParseConfig(string configFile, bool advanced = false, bool restore = false)
         {
             string[] configLines = ReadConfigFileLines(configFile);
             foreach (var line in configLines)
@@ -135,8 +158,16 @@ namespace MarlinEasyConfig
                 var configLine = new ConfigParameter(cleanedLine, advanced);
                 if (!parameterIgnoreList.Contains(configLine.Name))
                 {
-                    configLine.Index = configParameters.Count;
-                    configParameters.Add(configLine);
+                    if (restore)
+                    {
+                        int existingParameter = configParameters.FindIndex(p => p.Name == configLine.Name);
+                        if (existingParameter >= 0) configParameters[existingParameter] = configLine;
+                    }
+                    else
+                    {
+                        configLine.Index = configParameters.Count;
+                        configParameters.Add(configLine);
+                    }
                 }
             }
         }
@@ -344,7 +375,7 @@ namespace MarlinEasyConfig
                     if (parameter.Type == ParameterType.String) newValue = '"' + parameter.CleanValue(newValue).TrimEnd('\\') + '"';
                     conf = Regex.Replace(conf, pattern, m => string.IsNullOrEmpty(m.Groups[3].Value) ? m.Value : m.Value?.ReplaceFirst(m.Groups[3].Value, newValue ), RegexOptions.Multiline);
                 }
-                File.Move(configFile, configFile.Replace(".h", ".bak"));
+                File.Move(configFile, configFile.Replace(".h", ".bak"), true);
                 File.WriteAllText(configFile, conf);
                 return true;
             }
@@ -358,16 +389,16 @@ namespace MarlinEasyConfig
 
             // advanced config file
             ReplaceInConfig(currentMarlinConfigAdv);
+
+            // enable restore
+            MenuItem_Restore.IsEnabled = true;
         }
 
         private void Input_Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             var txt = (TextBox)sender;
             var txtSearch = txt.Text.ToLower();
-            foreach (var param in configParameters)
-            {
-                param.IsFiltered = !param.Name.ToLower().StartsWith(txtSearch);
-            }
+            foreach (var param in configParameters) param.Filter(txtSearch);
             ConfigTable.Items.Refresh();
         }
 
